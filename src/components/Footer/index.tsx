@@ -1,4 +1,4 @@
-import {Link, Spacer, HStack, Text, Wrap, WrapItem} from "@chakra-ui/react";
+import {Link, Spacer, HStack, Text} from "@chakra-ui/react";
 import {FaGithub, FaDiscord, FaTwitter} from "react-icons/all";
 
 export const Footer = () => {
