@@ -1,5 +1,6 @@
 import {SimpleGrid, Stack, Text} from "@chakra-ui/react";
 import {FC} from "react";
+import GeohashItem from "./GeohashItem";
 
 export const Geohash = () => {
   const alphabets = [
@@ -15,14 +16,6 @@ export const Geohash = () => {
         <GeohashItem key={item} alphabet={item}/>
       )) }
     </SimpleGrid>
-  )
-}
-
-const GeohashItem: FC<{alphabet: string}> = ({alphabet}) => {
-  return (
-    <Stack bg='white' height='200px' boxShadow={'xs'} alignItems={"center"} justifyContent={"center"}>
-      <Text>{alphabet}</Text>
-    </Stack>
   )
 }
 

@@ -1,5 +1,6 @@
-import {Button, HStack, Spacer, Text} from "@chakra-ui/react";
+import {HStack, IconButton, Spacer, Text} from "@chakra-ui/react";
 import {useLocation, useNavigate} from "react-router-dom";
+import {FaRegUserCircle, FiShare} from "react-icons/all";
 
 export const Header = () => {
   const navigate = useNavigate()
@@ -10,9 +11,8 @@ export const Header = () => {
       <Text fontWeight={"semibold"} onClick={() => navigate('/') } cursor={"pointer"}>Geohash</Text>
       <Text>{ location.pathname }</Text>
       <Spacer />
-      <Button variant={'outline'}>
-        Connect Wallet
-      </Button>
+      <IconButton aria-label={''} icon={<FiShare />} variant={"ghost"} borderRadius={8} size={'sm'} />
+      <IconButton aria-label={''} icon={<FaRegUserCircle />} variant={"ghost"} borderRadius={8} size={'sm'}/>
     </HStack>
   )
 }
