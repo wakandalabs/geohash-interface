@@ -9,7 +9,7 @@ export const Header = () => {
   return (
     <HStack alignItems={"center"} p={2}>
       <Text fontWeight={"semibold"} onClick={() => navigate('/') } cursor={"pointer"}>Geohash</Text>
-      <Text fontSize={'sm'} fontStyle={"italic"}>{ pathname }</Text>
+      <Text fontSize={'sm'}>{ pathname }</Text>
       <Spacer />
       <IconButton aria-label={''} icon={<FiShare />} variant={"ghost"} borderRadius={8} size={'sm'} />
       <IconButton aria-label={''} icon={<FaRegUserCircle />} variant={"ghost"} borderRadius={8} size={'sm'}/>
