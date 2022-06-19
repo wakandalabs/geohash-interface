@@ -1,6 +1,7 @@
 import {SimpleGrid, Stack, Text} from "@chakra-ui/react";
 import {FC} from "react";
 import GeohashItem from "./GeohashItem";
+import {useLocation} from "react-router-dom";
 
 export const Geohash = () => {
   const alphabets = [
@@ -10,10 +11,12 @@ export const Geohash = () => {
     '0', '1', '4', '5', 'h', 'j', 'n', 'p'
   ]
 
+  const { pathname } = useLocation()
+
   return (
     <SimpleGrid columns={8}>
       { alphabets.map((item) => (
-        <GeohashItem key={item} alphabet={item}/>
+        <GeohashItem key={item} alphabet={item} pathname={pathname}/>
       )) }
     </SimpleGrid>
   )
