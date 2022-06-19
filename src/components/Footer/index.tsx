@@ -1,4 +1,4 @@
-import {Link, Spacer, Stack, Text, Wrap, WrapItem} from "@chakra-ui/react";
+import {Link, Spacer, HStack, Text, Wrap, WrapItem} from "@chakra-ui/react";
 import {FaGithub, FaDiscord, FaTwitter} from "react-icons/all";
 
 export const Footer = () => {
@@ -9,19 +9,15 @@ export const Footer = () => {
   ]
 
   return (
-    <Stack p={2} h={'full'}>
-      <Wrap spacing={4}>
-        { links.map((item) => (
-          <WrapItem key={item.id}>
-            <Link href={item.link} isExternal>
-              { item.icon }
-            </Link>
-          </WrapItem>
-        )) }
-      </Wrap>
+    <HStack p={2} h={'full'} spacing={4}>
+      <Text fontSize={"xs"}>Made with ❤️ by Wakanda Labs</Text>
       <Spacer />
-      <Text fontSize={"sm"}>Made with ❤️ by Wakanda Labs</Text>
-    </Stack>
+      { links.map((item) => (
+        <Link key={item.id} href={item.link} isExternal>
+          { item.icon }
+        </Link>
+      )) }
+    </HStack>
   )
 }
 
