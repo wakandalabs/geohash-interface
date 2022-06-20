@@ -13,7 +13,10 @@ const GeohashItem: FC<{ pathname: string, alphabet: string}> = ({alphabet}) => {
   const [owner, setOwner] = useState<string | undefined>(undefined)
 
   const fetchTokenId = useCallback(async () => {
-    if (!geohash) return
+    if (!geohash) {
+      setTokenId(undefined)
+      return
+    }
     try{
       const result = await geohash.tokenByURI(`${pathname.slice(1)}${alphabet}`)
       if (result) {
@@ -27,7 +30,10 @@ const GeohashItem: FC<{ pathname: string, alphabet: string}> = ({alphabet}) => {
   }, [geohash, pathname, alphabet])
 
   const fetchOwner = useCallback(async () => {
-    if (!geohash || !tokenId) return
+    if (!geohash || !tokenId) {
+      setOwner(undefined)
+      return
+    }
     try {
       const result = await geohash.ownerOf(tokenId)
       if (result) {
