@@ -1,6 +1,7 @@
 import {SimpleGrid} from "@chakra-ui/react";
 import GeohashItem from "./GeohashItem";
 import {useLocation} from "react-router-dom";
+import {useGeohash} from "../../hooks/useGeohash";
 
 export const Geohash = () => {
   const alphabets = [
@@ -11,6 +12,7 @@ export const Geohash = () => {
   ]
 
   const {pathname} = useLocation()
+  const { totalSupply, myBalance } = useGeohash()
 
   return (
     <SimpleGrid columns={8}>

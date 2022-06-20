@@ -2,11 +2,13 @@ import { Contract } from '@ethersproject/contracts'
 import ERC20_ABI from '../abis/erc20.json'
 import ERC20_BYTES32_ABI from '../abis/erc20_bytes32.json'
 import EIP_2612 from '../abis/eip_2612.json'
+import GEOHASH_ABI from '../abis/geohash.json'
 
 import { useMemo } from 'react'
 import { getContract } from '../utils'
-import { Erc20 } from '../abis/types'
+import { Erc20, Geohash } from '../abis/types'
 import useActiveWeb3React from "./useActiveWeb3React";
+import {GEOHASH_ADDRESS} from "../constants/addresses";
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -41,4 +43,8 @@ export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossi
 
 export function useEIP2612Contract(tokenAddress?: string): Contract | null {
   return useContract(tokenAddress, EIP_2612, false)
+}
+
+export function useGeohashContract(withSignerIfPossible?: boolean): Contract | null {
+  return useContract<Geohash>(GEOHASH_ADDRESS, GEOHASH_ABI, withSignerIfPossible)
 }
