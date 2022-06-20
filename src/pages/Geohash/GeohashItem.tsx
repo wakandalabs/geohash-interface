@@ -11,6 +11,7 @@ const GeohashItem: FC<{ pathname: string, alphabet: string}> = ({alphabet}) => {
   const geohash = useGeohashContract()
   const [tokenId, setTokenId] = useState<string | undefined>(undefined)
   const [owner, setOwner] = useState<string | undefined>(undefined)
+  const [hasChild, setHasChild] = useState<boolean | undefined>(undefined)
 
   const fetchTokenId = useCallback(async () => {
     if (!geohash) {
@@ -26,6 +27,23 @@ const GeohashItem: FC<{ pathname: string, alphabet: string}> = ({alphabet}) => {
       }
     } catch (e) {
       setTokenId(undefined)
+    }
+  }, [geohash, pathname, alphabet])
+
+  const fetchHasChild = useCallback(async () => {
+    if (!geohash) {
+      setHasChild(undefined)
+      return
+    }
+    try{
+      const result = await geohash.tokenByURI(`${pathname.slice(1)}${alphabet}0`)
+      if (result) {
+        setHasChild(true)
+      } else {
+        setHasChild(false)
+      }
+    } catch (e) {
+      setHasChild(false)
     }
   }, [geohash, pathname, alphabet])
 
@@ -54,9 +72,17 @@ const GeohashItem: FC<{ pathname: string, alphabet: string}> = ({alphabet}) => {
     fetchOwner()
   }, [fetchOwner])
 
+  useEffect(() => {
+    fetchHasChild()
+  }, [fetchHasChild])
+
   return (
-    <Stack bg='white' height='200px' boxShadow={'xs'} alignItems={"center"} justifyContent={"center"} cursor={"pointer"}
-           onClick={() => navigate(`${pathname}${alphabet}`)}>
+    <Stack bg='white' height='200px' boxShadow={'xs'} alignItems={"center"} justifyContent={"center"} cursor={hasChild ? "pointer" : ""}
+           onClick={() => {
+             if (hasChild) {
+               navigate(`${pathname}${alphabet}`)
+             }
+           }}>
       <Text>{pathname.slice(1)}{alphabet}</Text>
       <Text>{tokenId?.slice(0,4)}...{tokenId?.slice(-4)}</Text>
       <Text>{owner ? shortenAddress(owner) : ''}</Text>
