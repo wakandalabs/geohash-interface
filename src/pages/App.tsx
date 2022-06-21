@@ -1,5 +1,5 @@
 import React from "react"
-import { Route,Routes } from "react-router-dom"
+import {Route, Routes} from "react-router-dom"
 import Web3ReactManager from "../components/Web3ReactManager"
 import Geohash from "./Geohash";
 import {Stack} from "@chakra-ui/react";
@@ -9,13 +9,13 @@ import Footer from "../components/Footer";
 function App() {
   return (
     <Web3ReactManager>
-      <Stack spacing={0} h={'100vh'}>
-        <Header />
+      <Stack spacing={0} h={'100vh'} w={'full'}>
+        <Header/>
         <Routes>
-          <Route path="/" element={<Geohash />} />
-          <Route path="/:geohash" element={<Geohash />} />
+          <Route path="/" element={<Geohash/>}/>
+          <Route path="/:geohash" element={<Geohash/>}/>
         </Routes>
-        <Footer />
+        <Footer/>
       </Stack>
     </Web3ReactManager>
   )

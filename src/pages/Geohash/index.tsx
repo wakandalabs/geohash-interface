@@ -5,17 +5,21 @@ import {useGeohash} from "../../hooks/useGeohash";
 
 export const Geohash = () => {
   const alphabets = [
-    'b', 'c', 'f', 'g', 'u', 'v', 'y', 'z',
-    '8', '9', 'd', 'e', 's', 't', 'w', 'x',
-    '2', '3', '6', '7', 'k', 'm', 'q', 'r',
-    '0', '1', '4', '5', 'h', 'j', 'n', 'p'
+    '0', '2', '8', 'b',
+    '1', '3', '9', 'c',
+    '4', '6', 'd', 'f',
+    '5', '7', 'e', 'g',
+    'h', 'k', 's', 'u',
+    'j', 'm', 't', 'v',
+    'n', 'q', 'w', 'y',
+    'p', 'r', 'x', 'z',
   ]
 
   const {pathname} = useLocation()
   const { totalSupply, myBalance } = useGeohash()
 
   return (
-    <SimpleGrid columns={8}>
+    <SimpleGrid columns={4} h={'full'} w={'full'} overflow={"scroll"} p={2}>
       {alphabets.map((item) => (
         <GeohashItem key={item} alphabet={item} pathname={pathname}/>
       ))}

@@ -77,7 +77,7 @@ const GeohashItem: FC<{ pathname: string, alphabet: string}> = ({alphabet}) => {
   }, [fetchHasChild])
 
   return (
-    <Stack bg='white' height='200px' boxShadow={'xs'} alignItems={"center"} justifyContent={"center"} cursor={hasChild ? "pointer" : ""}
+    <Stack bg='white' h='400px' w={'full'} boxShadow={'xs'} alignItems={"center"} justifyContent={"center"} cursor={hasChild ? "pointer" : ""}
            onClick={() => {
              if (hasChild) {
                navigate(`${pathname}${alphabet}`)
