@@ -1,29 +1,16 @@
-import {SimpleGrid} from "@chakra-ui/react";
-import GeohashItem from "./GeohashItem";
-import {useLocation} from "react-router-dom";
 import {useGeohash} from "../../hooks/useGeohash";
+import {Code, Stack} from "@chakra-ui/react";
 
 export const Geohash = () => {
-  const alphabets = [
-    '0', '2', '8', 'b',
-    '1', '3', '9', 'c',
-    '4', '6', 'd', 'f',
-    '5', '7', 'e', 'g',
-    'h', 'k', 's', 'u',
-    'j', 'm', 't', 'v',
-    'n', 'q', 'w', 'y',
-    'p', 'r', 'x', 'z',
-  ]
-
-  const {pathname} = useLocation()
-  const { totalSupply, myBalance } = useGeohash()
+  const { totalSupply, allTokenIds, myBalance, myTokenIds } = useGeohash()
 
   return (
-    <SimpleGrid columns={4} h={'full'} w={'full'} overflow={"scroll"} p={2}>
-      {alphabets.map((item) => (
-        <GeohashItem key={item} alphabet={item} pathname={pathname}/>
-      ))}
-    </SimpleGrid>
+    <Stack p={2}>
+      <Code p={2}>total supply: {totalSupply}</Code>
+      <Code p={2}>All tokenIds: {allTokenIds}</Code>
+      <Code p={2}>my balance: {myBalance}</Code>
+      <Code p={2}>My tokenIds: {myTokenIds}</Code>
+    </Stack>
   )
 }
 

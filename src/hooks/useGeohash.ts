@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo} from "react";
+import {useCallback, useEffect} from "react";
 import {useGeohashContract} from "./useContract";
 import {BigNumber} from "ethers";
 import {atom, useRecoilState} from "recoil";
@@ -14,6 +14,11 @@ export const myGeohashBalanceAtom = atom<number | undefined>({
   default: undefined
 })
 
+export const geohashAllTokenIdsAtom = atom<string[]>({
+  key: "geohash:all:tokenIds",
+  default: []
+})
+
 export const myGeohashTokenIdsAtom = atom<string[]>({
   key: "geohash:my:tokenIds",
   default: []
@@ -22,8 +27,10 @@ export const myGeohashTokenIdsAtom = atom<string[]>({
 export const useGeohash = () => {
   const geohash = useGeohashContract()
   const [totalSupply, setTotalSupply] = useRecoilState(geohashTotalSupplyAtom)
+  const [allTokenIds, setAllTokenIds] = useRecoilState(geohashAllTokenIdsAtom)
   const [myBalance, setMyBalance] = useRecoilState(myGeohashBalanceAtom)
   const [myTokenIds, setMyTokenIds] = useRecoilState(myGeohashTokenIdsAtom)
+
   const {account } = useActiveWeb3React()
 
   const fetchTotalSupply = useCallback(async () => {
@@ -44,6 +51,7 @@ export const useGeohash = () => {
 
   const fetchMyTokenIds = useCallback(async () => {
     if (!geohash || !account || !myBalance) return
+    setMyTokenIds([])
     for (let i=0; i< myBalance; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
       if (tokenId) {
@@ -51,6 +59,17 @@ export const useGeohash = () => {
       }
     }
   }, [geohash, account, myBalance])
+
+  const fetchAllTokenIds = useCallback(async () => {
+    if (!geohash || !totalSupply) return
+    setAllTokenIds([])
+    for (let i=0; i< totalSupply; i++) {
+      const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
+      if (tokenId) {
+        setAllTokenIds((allTokenIds) => [...allTokenIds, BigNumber.from(tokenId).toString()])
+      }
+    }
+  }, [geohash, totalSupply])
 
   useEffect(()=> {
     fetchTotalSupply()
@@ -64,8 +83,13 @@ export const useGeohash = () => {
     fetchMyTokenIds()
   }, [fetchMyTokenIds])
 
+  useEffect(() => {
+    fetchAllTokenIds()
+  }, [fetchAllTokenIds])
+
   return {
     totalSupply,
+    allTokenIds,
     myBalance,
     myTokenIds,
   }
