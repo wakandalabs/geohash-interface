@@ -24,14 +24,20 @@ export const myGeohashTokenIdsAtom = atom<string[]>({
   default: []
 })
 
+export const geojsonMapAtom = atom<{ [geohash: string]: string }>({
+  key: "geohash:geojson:map",
+  default: {}
+})
+
 export const useGeohash = () => {
   const geohash = useGeohashContract()
   const [totalSupply, setTotalSupply] = useRecoilState(geohashTotalSupplyAtom)
   const [allTokenIds, setAllTokenIds] = useRecoilState(geohashAllTokenIdsAtom)
   const [myBalance, setMyBalance] = useRecoilState(myGeohashBalanceAtom)
   const [myTokenIds, setMyTokenIds] = useRecoilState(myGeohashTokenIdsAtom)
+  const [geojson, setGeojson] = useRecoilState(geojsonMapAtom)
 
-  const {account } = useActiveWeb3React()
+  const {account} = useActiveWeb3React()
 
   const fetchTotalSupply = useCallback(async () => {
     if (!geohash) return
@@ -52,7 +58,7 @@ export const useGeohash = () => {
   const fetchMyTokenIds = useCallback(async () => {
     if (!geohash || !account || !myBalance) return
     setMyTokenIds([])
-    for (let i=0; i< myBalance; i++) {
+    for (let i = 0; i < myBalance; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
       if (tokenId) {
         setMyTokenIds((myTokenIds) => [...myTokenIds, BigNumber.from(tokenId).toString()])
@@ -63,7 +69,7 @@ export const useGeohash = () => {
   const fetchAllTokenIds = useCallback(async () => {
     if (!geohash || !totalSupply) return
     setAllTokenIds([])
-    for (let i=0; i< totalSupply; i++) {
+    for (let i = 0; i < totalSupply; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
       if (tokenId) {
         setAllTokenIds((allTokenIds) => [...allTokenIds, BigNumber.from(tokenId).toString()])
@@ -71,7 +77,7 @@ export const useGeohash = () => {
     }
   }, [geohash, totalSupply])
 
-  useEffect(()=> {
+  useEffect(() => {
     fetchTotalSupply()
   }, [fetchTotalSupply])
 
