@@ -15,7 +15,7 @@ export const Header = () => {
 
   return (
     <HStack alignItems={"center"} p={4} spacing={4}>
-      <Text fontWeight={"semibold"} onClick={() => navigate('/')} cursor={"pointer"}>Geohash</Text>
+      <Text fontWeight={"semibold"} fontSize={'xl'} onClick={() => navigate('/')} cursor={"pointer"}>Geohash</Text>
       <Spacer/>
 
       <NetworkCard />
