@@ -37,26 +37,35 @@ export const useGeohash = () => {
   const [myTokenIds, setMyTokenIds] = useRecoilState(myGeohashTokenIdsAtom)
   const [geojson, setGeojson] = useRecoilState(geojsonMapAtom)
 
-  const {account} = useActiveWeb3React()
+  const {account, chainId} = useActiveWeb3React()
 
   const fetchTotalSupply = useCallback(async () => {
-    if (!geohash) return
+    if (!geohash) {
+      setTotalSupply(undefined)
+      return
+    }
     const result = await geohash.totalSupply()
     if (result) {
       setTotalSupply(BigNumber.from(result).toNumber())
     }
-  }, [geohash])
+  }, [geohash, chainId])
 
   const fetchMyBalance = useCallback(async () => {
-    if (!geohash || !account) return
+    if (!geohash || !account) {
+      setMyBalance(undefined)
+      return
+    }
     const result = await geohash.balanceOf(account)
     if (result) {
       setMyBalance(BigNumber.from(result).toNumber())
     }
-  }, [geohash, account])
+  }, [geohash, account, chainId])
 
   const fetchMyTokenIds = useCallback(async () => {
-    if (!geohash || !account || !myBalance) return
+    if (!geohash || !account || !myBalance) {
+      setMyTokenIds([])
+      return
+    }
     setMyTokenIds([])
     for (let i = 0; i < myBalance; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
@@ -64,10 +73,13 @@ export const useGeohash = () => {
         setMyTokenIds((myTokenIds) => [...myTokenIds, BigNumber.from(tokenId).toString()])
       }
     }
-  }, [geohash, account, myBalance])
+  }, [geohash, account, myBalance, chainId])
 
   const fetchAllTokenIds = useCallback(async () => {
-    if (!geohash || !totalSupply) return
+    if (!geohash || !totalSupply) {
+      setAllTokenIds([])
+      return
+    }
     setAllTokenIds([])
     for (let i = 0; i < totalSupply; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
@@ -75,7 +87,7 @@ export const useGeohash = () => {
         setAllTokenIds((allTokenIds) => [...allTokenIds, BigNumber.from(tokenId).toString()])
       }
     }
-  }, [geohash, totalSupply])
+  }, [geohash, totalSupply, chainId])
 
   useEffect(() => {
     fetchTotalSupply()

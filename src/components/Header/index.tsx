@@ -1,11 +1,12 @@
-import {Button, HStack, IconButton, Menu, MenuButton, MenuItem, MenuList, Spacer, Text} from "@chakra-ui/react";
+import {Button, HStack, Spacer, Text} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {FaRegUserCircle} from "react-icons/all";
 import useActiveWeb3React from "../../hooks/useActiveWeb3React";
 import {shortenAddress} from "../../utils";
-import {ChevronDownIcon} from "@chakra-ui/icons";
 import {myGeohashBalanceAtom} from "../../hooks/useGeohash";
 import {useRecoilValue} from "recoil";
+import NetworkCard from "../NetworkCard";
+import ConnectWallet from "../ConnectWallet";
 
 export const Header = () => {
   const navigate = useNavigate()
@@ -17,19 +18,7 @@ export const Header = () => {
       <Text fontWeight={"semibold"} onClick={() => navigate('/')} cursor={"pointer"}>Geohash</Text>
       <Spacer/>
 
-      <Menu>
-        {({isOpen}) => (
-          <>
-            <MenuButton isActive={isOpen} as={Button} rightIcon={<ChevronDownIcon/>}>
-              Network
-            </MenuButton>
-            <MenuList>
-              <MenuItem>Rinkeby</MenuItem>
-              <MenuItem>Polygon</MenuItem>
-            </MenuList>
-          </>
-        )}
-      </Menu>
+      <NetworkCard />
 
       {
         account ? (
@@ -37,7 +26,7 @@ export const Header = () => {
             {shortenAddress(account)}
           </Button>
         ) : (
-          <IconButton aria-label={''} icon={<FaRegUserCircle/>} borderRadius={8}/>
+          <ConnectWallet />
         )
       }
     </HStack>

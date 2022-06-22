@@ -40,6 +40,7 @@ export const L2_CHAIN_IDS = [
 export type SupportedL2ChainId = typeof L2_CHAIN_IDS[number]
 
 interface L1ChainInfo {
+  readonly chainId: number
   readonly docs: string
   readonly explorer: string
   readonly infoLink: string
@@ -58,6 +59,7 @@ type ChainInfo = { readonly [chainId: number]: L1ChainInfo | L2ChainInfo } & {
 
 export const CHAIN_INFO: ChainInfo = {
   [SupportedChainId.ARBITRUM_ONE]: {
+    chainId: SupportedChainId.ARBITRUM_ONE,
     bridge: 'https://bridge.arbitrum.io/',
     docs: 'https://offchainlabs.com/',
     explorer: 'https://arbiscan.io/',
@@ -67,6 +69,7 @@ export const CHAIN_INFO: ChainInfo = {
     nativeSymbol: 'ETH'
   },
   [SupportedChainId.ARBITRUM_RINKEBY]: {
+    chainId: SupportedChainId.ARBITRUM_RINKEBY,
     bridge: 'https://bridge.arbitrum.io/',
     docs: 'https://offchainlabs.com/',
     explorer: 'https://rinkeby-explorer.arbitrum.io/',
@@ -76,6 +79,7 @@ export const CHAIN_INFO: ChainInfo = {
     nativeSymbol: 'ETH'
   },
   [SupportedChainId.MAINNET]: {
+    chainId: SupportedChainId.MAINNET,
     docs: 'https://docs.uniswap.org/',
     explorer: 'https://etherscan.io/',
     infoLink: '',
@@ -83,6 +87,7 @@ export const CHAIN_INFO: ChainInfo = {
     nativeSymbol: 'ETH'
   },
   [SupportedChainId.RINKEBY]: {
+    chainId: SupportedChainId.RINKEBY,
     docs: 'https://docs.uniswap.org/',
     explorer: 'https://rinkeby.etherscan.io/',
     infoLink: '',
@@ -90,6 +95,7 @@ export const CHAIN_INFO: ChainInfo = {
     nativeSymbol: 'ETH'
   },
   [SupportedChainId.ROPSTEN]: {
+    chainId: SupportedChainId.ROPSTEN,
     docs: 'https://docs.uniswap.org/',
     explorer: 'https://ropsten.etherscan.io/',
     infoLink: '',
@@ -97,6 +103,7 @@ export const CHAIN_INFO: ChainInfo = {
     nativeSymbol: 'ETH'
   },
   [SupportedChainId.KOVAN]: {
+    chainId: SupportedChainId.KOVAN,
     docs: 'https://docs.uniswap.org/',
     explorer: 'https://kovan.etherscan.io/',
     infoLink: '',
@@ -104,6 +111,7 @@ export const CHAIN_INFO: ChainInfo = {
     nativeSymbol: 'ETH'
   },
   [SupportedChainId.GOERLI]: {
+    chainId: SupportedChainId.GOERLI,
     docs: 'https://docs.uniswap.org/',
     explorer: 'https://goerli.etherscan.io/',
     infoLink: '',
