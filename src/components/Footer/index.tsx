@@ -9,7 +9,7 @@ export const Footer = () => {
   ]
 
   return (
-    <HStack p={2} spacing={4}>
+    <HStack p={4} spacing={4}>
       <Text fontSize={"xs"}>Made with ❤️ by Wakanda Labs</Text>
       <Spacer />
       { links.map((item) => (

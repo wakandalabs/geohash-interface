@@ -1,35 +1,45 @@
-import {Editable, EditableInput, EditablePreview, HStack, IconButton, Spacer, Text} from "@chakra-ui/react";
-import {useLocation, useNavigate} from "react-router-dom";
-import {FaRegUserCircle, FiCornerUpLeft, FiShare} from "react-icons/all";
-import {useCallback, useEffect, useState} from "react";
+import {Button, HStack, IconButton, Menu, MenuButton, MenuItem, MenuList, Spacer, Text} from "@chakra-ui/react";
+import {useNavigate} from "react-router-dom";
+import {FaRegUserCircle} from "react-icons/all";
+import useActiveWeb3React from "../../hooks/useActiveWeb3React";
+import {shortenAddress} from "../../utils";
+import {ChevronDownIcon} from "@chakra-ui/icons";
+import {myGeohashBalanceAtom} from "../../hooks/useGeohash";
+import {useRecoilValue} from "recoil";
 
 export const Header = () => {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const [searchPath, setSearchPath] = useState(pathname)
-
-  const updateSearchPath = useCallback(() => {
-    setSearchPath(pathname)
-  }, [pathname])
-
-  useEffect(() => {
-    updateSearchPath()
-  }, [updateSearchPath])
+  const {account} = useActiveWeb3React()
+  const myBalance = useRecoilValue(myGeohashBalanceAtom)
 
   return (
-    <HStack alignItems={"center"} p={2}>
-      <Text fontWeight={"semibold"} onClick={() => navigate('/') } cursor={"pointer"}>Geohash</Text>
-      <IconButton aria-label={''} icon={<FiCornerUpLeft />}
-                  variant={"ghost"} borderRadius={8} size={'sm'}
-                  disabled={pathname === '/'}
-                  onClick={() => navigate(pathname.slice(0, -1) ?? '/')}/>
-      <Editable value={searchPath} onSubmit={() => navigate(searchPath)}>
-        <EditablePreview />
-        <EditableInput onChange={(e) => setSearchPath(e.target.value)}/>
-      </Editable>
-      <Spacer />
-      <IconButton aria-label={''} icon={<FiShare />} variant={"ghost"} borderRadius={8} size={'sm'} />
-      <IconButton aria-label={''} icon={<FaRegUserCircle />} variant={"ghost"} borderRadius={8} size={'sm'}/>
+    <HStack alignItems={"center"} p={4} spacing={4}>
+      <Text fontWeight={"semibold"} onClick={() => navigate('/')} cursor={"pointer"}>Geohash</Text>
+      <Spacer/>
+
+      <Menu>
+        {({isOpen}) => (
+          <>
+            <MenuButton isActive={isOpen} as={Button} rightIcon={<ChevronDownIcon/>}>
+              Network
+            </MenuButton>
+            <MenuList>
+              <MenuItem>Rinkeby</MenuItem>
+              <MenuItem>Polygon</MenuItem>
+            </MenuList>
+          </>
+        )}
+      </Menu>
+
+      {
+        account ? (
+          <Button leftIcon={<FaRegUserCircle/>}>
+            {shortenAddress(account)}
+          </Button>
+        ) : (
+          <IconButton aria-label={''} icon={<FaRegUserCircle/>} borderRadius={8}/>
+        )
+      }
     </HStack>
   )
 }
