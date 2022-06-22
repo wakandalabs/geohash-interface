@@ -3,6 +3,7 @@ import {useGeohashContract} from "./useContract";
 import {BigNumber} from "ethers";
 import {atom, useRecoilState} from "recoil";
 import useActiveWeb3React from "./useActiveWeb3React";
+import {replaceItemAtIndex} from "../utils/array";
 
 export const geohashTotalSupplyAtom = atom<number | undefined>({
   key: "geohash:totalSupply",
@@ -66,11 +67,15 @@ export const useGeohash = () => {
       setMyTokenIds([])
       return
     }
-    setMyTokenIds([])
     for (let i = 0; i < myBalance; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
       if (tokenId) {
-        setMyTokenIds((myTokenIds) => [...myTokenIds, BigNumber.from(tokenId).toString()])
+        if (myTokenIds.length < i) {
+          setMyTokenIds((myTokenIds) => [...myTokenIds, BigNumber.from(tokenId).toString()])
+        } else {
+          const newMyTokenIds = replaceItemAtIndex(myTokenIds, i, tokenId)
+          setMyTokenIds(newMyTokenIds)
+        }
       }
     }
   }, [geohash, account, myBalance, chainId])
@@ -80,11 +85,16 @@ export const useGeohash = () => {
       setAllTokenIds([])
       return
     }
-    setAllTokenIds([])
     for (let i = 0; i < totalSupply; i++) {
       const tokenId = await geohash.tokenOfOwnerByIndex(account, i)
       if (tokenId) {
-        setAllTokenIds((allTokenIds) => [...allTokenIds, BigNumber.from(tokenId).toString()])
+        if (allTokenIds.length < i) {
+          setAllTokenIds((allTokenIds) => [...allTokenIds, BigNumber.from(tokenId).toString()])
+        } else {
+          const newAllTokenIds = replaceItemAtIndex(allTokenIds, i, tokenId)
+          setAllTokenIds(newAllTokenIds)
+        }
+
       }
     }
   }, [geohash, totalSupply, chainId])
